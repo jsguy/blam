@@ -1,0 +1,31 @@
+BLAM! v 0.0.3
+
+	. Added ability to configure beautify seperately - modify beauty.cfg.js
+	  for options, or use -b FILENAME
+	. We now have "the good parts" jsLint config file, which can optionally
+	  be added to each file, if it doesn't already have one, add -c to use.
+	  Note: We use the good parts by default, update lint.default.cfg.js if
+	  you need other things, or use -l FILENAME for different file
+
+BLAM! v 0.0.2
+
+	. Changed to spidermonkey JS engine (Java + Rhino = Sloooow). Note: YUI
+	  Minify / Compress still requires Java
+	. Added ability to run NaturalDocs as part of the process
+	. Changed error output to the following format:
+
+		[LINE]:[CHARACTER] [REASON] - [EVIDENCE]
+
+	. We now supress whitespace related error messages, so you can 
+	  concentrate on the real issues - this is fine, assuming you use BLAM!
+	  of course
+
+BLAM! v 0.0.1
+
+	. BLAM = Beautify Lint And Minify
+	. Allows you to Lint without worrying about whitespace (tm)
+	. Intended usage is to always BLAM! before checking a file into the 
+	  repository, or ideally run as a SVN commit hook
+	. Runs on windows and OSX
+	. First (closed alpha, ie: Jon.B and David.L testing) release
+
