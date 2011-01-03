@@ -8,8 +8,8 @@ BLAM! - Beautify Lint And Minify
     the file which can be used in production straight away.
     BLAM uses the following tools:
     
-        . jsLint (jslint.com)
-        . jsbeautifier (jsbeautifier.org)
+        . jsLint (http://www.jslint.com)
+        . jsbeautifier (http://jsbeautifier.org)
         . YUI Compressor (http://developer.yahoo.com/yui/compressor/)
         . NaturalDocs (http://www.naturaldocs.org/)
         . Spidermonkey JS (http://www.mozilla.org/js/spidermonkey/)
@@ -27,10 +27,6 @@ Installation
 
 Integration - Eclipse
 
-You can create an external tool configuration for BLAM! to allow you to run it 
-against.
-
-Usage
-
-TODO: Complete readme :o)
+    You can create an external tool configuration for BLAM! to allow you to run it 
+    against.
 
