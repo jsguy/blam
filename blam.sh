@@ -93,7 +93,8 @@ if [[ ! -f "$inputfile" ]]; then
 	fi
 	exit 1
 fi
-        
+ 
+# Make sure we have a tmp dir
 if [ ! -d ./tmp ]; then
     mkdir ./tmp
 fi
