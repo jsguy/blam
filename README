@@ -1,32 +1,23 @@
-BLAM! - Beautify Lint And Minify
+<h1>BLAM! - Beautify Lint And Minify</h1>
 
-    This tool is intended to allow a user to beautify, lint and minify their 
-    JavaScript before comitting it to a repository. When working in large teams
-    or groups, it is advantageous to use a unified coding style, (as set by 
-    lint), and ensure the files are always kept beautiful.
-    Furthermore, the tool includes the ability to create a minified version of
-    the file which can be used in production straight away.
-    BLAM uses the following tools:
+    This tool is intended to allow a user to beautify, lint and minify their JavaScript before comitting it to a repository. When working in large teams or groups, it is advantageous to use a unified coding style, (as set by lint), and ensure the files are always kept beautiful.  Furthermore, the tool includes the ability to create a minified version of the file which can be used in production straight away.
+
+<h2>BLAM uses the following tools</h2>
     
-        . jsLint (http://www.jslint.com)
-        . jsbeautifier (http://jsbeautifier.org)
-        . YUI Compressor (http://developer.yahoo.com/yui/compressor/)
-        . NaturalDocs (http://www.naturaldocs.org/)
-        . Spidermonkey JS (http://www.mozilla.org/js/spidermonkey/)
+<ul>
+    <li>jsLint (http://www.jslint.com)</li>
+    <li>jsbeautifier (http://jsbeautifier.org)</li>
+    <li>YUI Compressor (http://developer.yahoo.com/yui/compressor/)</li>
+    <li>NaturalDocs (http://www.naturaldocs.org/)</li>
+    <li>Spidermonkey JS (http://www.mozilla.org/js/spidermonkey/)</li>
+</ul>
 
-    Additionally the following for the windows version
+<h2>Additionally the following for the windows version</h2>
 
-        . Cygwin for the windows version (http://www.cygwin.com/)
-        . Strawberry perl (portable) for the windows version (http://strawberryperl.com/)
-        . Couch DB Spidermonkey for windows version (http://wiki.apache.org/couchdb/Installing_on_Windows#Windows_Installer)
+    <li>Cygwin for the windows version (http://www.cygwin.com/)</li>
+    <li>Strawberry perl (portable) for the windows version (http://strawberryperl.com/)</li>
+    <li>Couch DB Spidermonkey for windows version (http://wiki.apache.org/couchdb/Installing_on_Windows#Windows_Installer)</li>
 
-Installation
+<h1>Installation and integration</h1>
 
-    1. Unzip the archive to a directory
-    2. In a shell (command prompt) run blam.sh (or blam.bat), to see the options.
-
-Integration - Eclipse
-
-    You can create an external tool configuration for BLAM! to allow you to run it 
-    against.
-
+See <a href="http://github.com/jsguy/blam/wiki/">the wiki for instructions</a>.
