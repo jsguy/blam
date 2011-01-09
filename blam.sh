@@ -1,9 +1,8 @@
 #!/bin/bash
 
 #
-#	blam.sh - Beautify Lint and Minify JS files
+#	BLAM - Beautify Lint and Minify JS files
 #   Copyright (c) 2011 - Mikkel Bergmann - http://jsguy.com
-#   
 #
 #	Licence
 #	-------
@@ -93,6 +92,9 @@ if [[ ! -f "$inputfile" ]]; then
 	fi
 	exit 1
 fi
+
+# Ensure we are in the right directory
+cd `dirname $0`
  
 # Make sure we have a tmp dir
 if [ ! -d ./tmp ]; then

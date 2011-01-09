@@ -1,4 +1,4 @@
-BLAM! - Beautify Lint And Minify
+BLAM - Beautify Lint And Minify
 
 This tool is intended to allow a user to beautify, lint and minify their JavaScript before comitting it to a repository. When working in large teams or groups, it is advantageous to use a unified coding style, (as set by lint), and ensure the files are always kept beautiful.  Furthermore, the tool includes the ability to create a minified version of the file which can be used in production straight away.
 
