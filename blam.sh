@@ -28,6 +28,9 @@ minify=0		    	    # Do we create a compressed minified version, to enable: "-c"
 replace=0		        	# Do we replace the file with the beautified version, to enable: "-r"
 quiet=0			    	    # Do we supress displaying errors and exit quietly (useful for build scripts), to enable: "-q"
 fullpathonerror=0   	    # Do we show the full file path and name on errors
+skiplint=0                  # Skip jsLint, run just beautifier
+waitafter=0                 # Wait for keypress after running
+waiterror=0                 # Wait for keypress after running, only when error occurs
 document=0			        # Do we run the documentation toole (Natural docs) - disabled for now
 docprojdir=./tmp/proj	    # Directory to put/read Naturaldocs project from
 docoutdir=./tmp/doc         # Directory to put Naturaldocs documentation
@@ -35,7 +38,7 @@ lintcfg=./lint.cfg.js       # File to read lint CFG from, (only applied if test 
 beautycfg=./beauty.cfg.js   # File to read beauty CFG from
 lintconfigure=0             # Do we add a lint config if one is not found?
 
-while getopts "cdfmrqi:b:l:p:o:" option
+while getopts "cdfmrqswei:b:l:p:o:" option
 do
 	case $option in
 		i) inputfile=$OPTARG;;
@@ -43,6 +46,9 @@ do
         l) lintcfg=$OPTARG;;
 		p) docprojdir=$OPTARG;;
 		o) docoutdir=$OPTARG;;
+        s) skiplint=1;;
+        w) waitafter=1;;
+        e) waiterror=1;;
         c) lintconfigure=1;;
 		f) fullpathonerror=1;;
 		m) minify=1;;
@@ -52,12 +58,23 @@ do
 	esac
 done
 
+# Exit function, to pause on end
+efunc () {
+    exitMessage="Press ENTER to continue..."
+    if [[ $waiterror == 1 && ! $1 == 0 ]]; then
+        read -p "$exitMessage"
+	elif [ $waitafter == 1 ]; then
+        read -p "$exitMessage"
+    fi
+    exit $1 
+}
+
 # Make sure we have required variables
 
 if [ ! -n "$inputfile" ]; then
 	if [ $quiet == 0 ]; then
 		echo
-		echo "Usage: `basename $0` -i FILENAME [-rcq]"
+		echo "Usage: `basename $0` -[Options] -i FILENAME"
 		echo
 		echo "Options"
 		echo "	-i FILENAME"
@@ -70,6 +87,8 @@ if [ ! -n "$inputfile" ]; then
         echo "		Lint config file to optionally use if no lint cfg in file (defaults to lint.cfg.js, must use -c option)"
 		echo "	-r"
 		echo "		Replace the input file with the beautified version"
+		echo "	-s"
+		echo "		Skip jsLint, and run beautifier on the file"
 		echo "	-m"
 		echo "		Create a minified version, (YUI Compressor), the output will be BASEFILENAME.min.js"
 		echo "	-d"
@@ -82,15 +101,20 @@ if [ ! -n "$inputfile" ]; then
 		echo "		Suppress displaying errors and exit quietly, only setting the errorlevel (useful for build scripts)"
 		echo "	-f"
 		echo "		Shows full file path and name on error (default shows just the file name)"
+		echo "	-w"
+		echo "		Wait for keypress after showing result"
+		echo "	-e"
+		echo "		Wait for keypress only on error after showing result"
 		echo
 	fi
-	exit 1
+	efunc 1
 fi
+
 if [[ ! -f "$inputfile" ]]; then
 	if [ $quiet == 0 ]; then
 		echo "File not found: $inputfile"
 	fi
-	exit 1
+	efunc 1
 fi
 
 # Ensure we are in the right directory
@@ -148,9 +172,6 @@ fi
 # Create beautified tmp file
 cat "$tmpinputfile" | $jscmd $beautfile > "$tmpfile"
 
-# testing...
-# cp "$tmpfile" ./tmp/bea.txt
-
 # Create backup of file
 cp "$tmpfile" "$tmpinputfile"
 
@@ -173,8 +194,7 @@ if [ $lintconfigure == 1 ]; then
     fi
 fi
 
-
-if [ $quiet == 0 ]; then
+if [[ $quiet == 0 && $skiplint == 0 ]]; then
 	echo "Linting"
 fi
 
@@ -186,21 +206,33 @@ else
 	passlint=`cat "$tmpinputfile" | $jscmd $lintfile`
 fi
 
-if [ "$passlint" == "true" ]; then
+if [[ "$passlint" == "true" || $skiplint == 1 ]]; then
 	# If lint passes, and the file is different to the beautified version we replace it with the beautified version
 	if [[ `diff -s "$inputfile" "$tmpinputfile" |grep -c "Files $inputfile and $tmpinputfile are identical"` == "1" ]]; then
 		if [ $quiet == 0 ]; then
-			echo "Lint passed on beautified file - file unchanged"
+            if [ $skiplint == 1 ]; then
+                echo "Beautified file - file unchanged"
+            else
+                echo "Lint passed on beautified file - file unchanged"
+            fi
 		fi
 	else
 		if [ $replace == 1 ]; then
 			cp "$tmpinputfile" "$inputfile"
 			if [ $quiet == 0 ]; then
-				echo "Lint passed - file replaced with beautified version"
+                if [ $skiplint == 1 ]; then
+                    echo "Beautified file - file replaced with beautified version"
+                else
+                    echo "Lint passed - file replaced with beautified version"
+                fi
 			fi
 		else
 			if [ $quiet == 0 ]; then
-				echo "Lint passed - file not replaced; add -r argument to do so"
+                if [ $skiplint == 1 ]; then
+                    echo "Beautified file - file not replaced; add -r argument to do so"
+                else
+                    echo "Lint passed - file not replaced; add -r argument to do so"
+                fi
 			fi
 		fi
 	fi
@@ -212,7 +244,6 @@ if [ "$passlint" == "true" ]; then
 		java -jar lib/yuicompressor-2.4.2.jar -o "$filebasename.min.js" "$inputfile"
 	fi
 	if [ $document == 1 ]; then
-        # TODO: Figure out how to specify where to put documentation
         if [ ! -d $docprojdir ]; then
             mkdir $docprojdir
         fi
@@ -255,5 +286,7 @@ rm "$tmpfile"
 rm "$tmpinputfile"
 
 if [ $runtimeerror == 1 ]; then
-	exit 1
+	efunc 1
+else
+    efunc 0
 fi
