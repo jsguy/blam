@@ -14,7 +14,12 @@ echo Starting Cygwin
 
 SET CYGWIN=nodosfilewarning
 SET path=./lib/cygwin;%path%
+
 REM Perl pathes
 SET path=./lib/perl/perl/site/bin;./lib/perl/bin;./lib/perl/c/bin;%path%
 SET TERM=dumb
+
+REM Make sure we're in the right directory
+cd /d %~dp0
+
 bash blam.sh %*
