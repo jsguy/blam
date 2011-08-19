@@ -1,4 +1,4 @@
-//  Beautification settings
+//  These are the beautification settings
 {   
     space_after_anon_function: true,        //  jsLint wants space after anonomous functions
     preserve_newlines: true,                //  Allowing new lines makes for nicers layout of some files
